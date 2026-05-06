@@ -1,0 +1,15 @@
+{
+  "name": "my-openclaw-skills",
+  "version": "1.1.0",
+  "description": "Custom OpenClaw Skills for Trend0x Trading Terminal",
+  "author": "Trend0x AI",
+  "license": "MIT",
+  "openclaw": {
+    "repository": "https://github.com/trend0xai/my-openclaw-skills",
+    "branding": {
+      "name": "Trend0x AI",
+      "emoji": "🤖",
+      "color": "#00f2fe"
+    }
+  }
+}

@@ -19,86 +19,32 @@ This document provides the necessary agential context and tool definitions for a
 
 ---
 
-## 🛠️ Agential Toolset
+## 🛠️ MCP Toolset (Unified API)
+All tools are accessible via the **Unified MCP Endpoint**: `https://demo.trend0x.com/api/mcp`
 
-### 1. `get_system_health`
-Retrieves real-time telemetry, including server uptime, memory usage, and bridge status.
-```bash
-curl -X GET "https://demo.trend0x.com/health" \
-     -H "Authorization: Bearer {{AGENT_TOKEN}}"
-```
+### 1. `get_market_data`
+Retrieves real-time price and 24h statistics for any crypto or tradfi symbol.
+- **Inputs**: `symbol` (e.g., BTCUSDT), `exchange` (optional).
 
-### 2. `fetch_terminal_state`
-Comprehensive snapshot of the UNIFIED terminal state, including real balances across all exchanges, open positions, recent trade history, and real-time market news.
-```bash
-curl -X GET "https://demo.trend0x.com/api/agent/unified-state" \
-     -H "Authorization: Bearer {{AGENT_TOKEN}}"
-```
+### 2. `execute_trade`
+Executes market orders on connected exchanges (Bybit, Bitunix, Alpaca).
+- **Inputs**: `symbol`, `side` (BUY/SELL), `qty`, `exchange`, `leverage`.
 
-### 3. `manage_strategies`
-List, audit, or toggle trading algorithms. 
-**List all:**
-```bash
-curl -X GET "https://demo.trend0x.com/api/strategies" \
-     -H "Authorization: Bearer {{AGENT_TOKEN}}"
-```
+### 3. `fetch_terminal_state`
+Comprehensive snapshot of balances, open positions, and news.
+- **Endpoint**: `GET /api/agent/unified-state`
 
-**Toggle (Enable/Disable):**
-```bash
-curl -X POST "https://demo.trend0x.com/api/strategies/toggle" \
-     -H "Authorization: Bearer {{AGENT_TOKEN}}" \
-     -H "Content-Type: application/json" \
-     -d '{"id": "STRATEGY_ID", "enabled": true}'
-```
+### 4. `manage_strategies`
+List or toggle trading algorithms.
+- **Endpoint**: `GET /api/strategies`
 
-### 4. `execute_trade`
-Initiate trade execution via the unified terminal bridge. Use `exchange: "paper"` for simulations or specify a real exchange (e.g., "bitunix", "bybit").
-```bash
-curl -X POST "https://demo.trend0x.com/api/agent/execute" \
-     -H "Authorization: Bearer {{AGENT_TOKEN}}" \
-     -H "Content-Type: application/json" \
-     -d '{
-       "exchange": "bitunix",
-       "action": "open",
-       "symbol": "BTCUSDT",
-       "side": "BUY",
-       "amount": 5.0,
-       "type": "MARKET"
-     }'
-```
+### 5. `implement_strategy`
+Deploy new TypeScript trading modules directly to the terminal.
+- **Endpoint**: `POST /api/strategies/implement`
 
-### 5. `get_market_signals`
-Retrieve real-time technical analysis, sentiment scores, and fractal break insights for specific symbols.
-```bash
-curl -X GET "https://demo.trend0x.com/api/signals?symbol=BTCUSDT" \
-     -H "Authorization: Bearer {{AGENT_TOKEN}}"
-```
-
-### 6. `update_risk_params`
-Configure Stop Loss (SL) and Take Profit (TP) for active or new positions. Supports both SPOT and FUTURES.
-```bash
-curl -X POST "https://demo.trend0x.com/api/agent/update-risk" \
-     -H "Authorization: Bearer {{AGENT_TOKEN}}" \
-     -H "Content-Type: application/json" \
-     -d '{
-       "symbol": "BTCUSDT",
-       "sl": "65000",
-       "tp": "72000"
-     }'
-```
-
-### 7. `publish_intelligence_report`
-Mirror your trade reasoning and market logic to the **Landing Page Dashboard Performance** section. 
-```bash
-curl -X POST "https://demo.trend0x.com/api/agent/reports" \
-     -H "Authorization: Bearer {{AGENT_TOKEN}}" \
-     -H "Content-Type: application/json" \
-     -d '{
-       "title": "Aura Market Insight: BTC Breakout",
-       "content": "Reasoning: Clear fractal break above 68k...\nRationale: EMA cross confirm...\nReward: 5:1 Risk/Reward.",
-       "type": "TRADE"
-     }'
-```
+### 6. `manage_tasks`
+Orchestrate autonomous agent workflows.
+- **Endpoint**: `GET /api/tasks` | `POST /api/tasks`
 
 ### 8. `implement_strategy`
 Deploy a new TypeScript strategy module to the terminal.
