@@ -21,7 +21,7 @@ Task Orchestration and Autonomous Workflow Management.
 To use these skills in your OpenClaw environment:
 
 ```bash
-npx openclaw skill add https://github.com/trend0x-ai/my-openclaw-skills
+npx openclaw skill add https://github.com/trend0xai/my-openclaw-skills
 ```
 
 ## 🛠️ Development
