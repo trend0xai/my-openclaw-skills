@@ -100,6 +100,47 @@ curl -X POST "https://demo.trend0x.com/api/agent/reports" \
      }'
 ```
 
+### 8. `implement_strategy`
+Deploy a new TypeScript strategy module to the terminal.
+```bash
+curl -X POST "https://demo.trend0x.com/api/strategies/implement" \
+     -H "Authorization: Bearer {{AGENT_TOKEN}}" \
+     -H "Content-Type: application/json" \
+     -d '{
+       "id": "my-new-strategy",
+       "name": "AI Momentum Pro",
+       "code": "// TypeScript code here..."
+     }'
+```
+
+### 9. `manage_tasks`
+Create or list autonomous agent tasks (workflows).
+**List all:**
+```bash
+curl -X GET "https://demo.trend0x.com/api/tasks" \
+     -H "Authorization: Bearer {{AGENT_TOKEN}}"
+```
+
+**Create Task:**
+```bash
+curl -X POST "https://demo.trend0x.com/api/tasks" \
+     -H "Authorization: Bearer {{AGENT_TOKEN}}" \
+     -H "Content-Type: application/json" \
+     -d '{
+       "prompt": "Monitor ETH for RSI divergence on 15m",
+       "type": "SCAN",
+       "label": "ETH Monitor"
+     }'
+```
+
+---
+
+## 📱 Telegram Connectivity & Automation
+The Trend0X Terminal is fully integrated with the **Aura Telegram Bot**.
+- **Automated Alerts**: Strategies deployed via `implement_strategy` can automatically broadcast signals to Telegram.
+- **Signal Execution**: Users can confirm agent-proposed trades directly via the bot's interactive menus.
+- **Direct Interaction**: Use the `/ask` and `/task` commands in Telegram to trigger agential reasoning.
+
 ---
 
 ## 🛡️ Risk Management Guidelines
