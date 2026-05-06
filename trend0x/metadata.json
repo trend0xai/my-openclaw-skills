@@ -1,0 +1,11 @@
+{
+  "name": "trend0x-agentic-control",
+  "version": "3.0.0",
+  "author": "Trend0X AI",
+  "description": "Unified Agential Control for the Trend0X Terminal",
+  "homepage": "https://demo.trend0x.com",
+  "openclaw": {
+    "emoji": "🤖",
+    "protocol": "mcp-v1"
+  }
+}
