@@ -144,6 +144,31 @@ export default StrategyModule;
 3.  **Relative Indicators**: Always use `Indicators.calculateXXX` from the local `utils/indicators` file to ensure calculation consistency.
 4.  **Timeframe Filtering**: Always check `if (payload.timeframe !== this.params.timeframe) return;` in the `handleUpdate` to avoid processing data on unintended scales.
 
+## 🧪 Backtest and Attribution Requirements
+
+Before a generated strategy is promoted beyond probe mode:
+
+1. Define every `entryRules` indicator and its numeric parameters explicitly.
+   The executable draft engine supports EMA, SMA, RSI, Volume, Relative
+   Volume/RVOL, VWAP, ADX, BB/Bollinger Width, PRICE, ATR, MACD, LRC, OBV,
+   STOCH/STOCHASTIC, and STOCHRSI.
+2. Attach `timeframe` to each rule that uses a different series from the primary
+   timeframe. Request the additional series through `confirmationTimeframes`.
+   The engine aligns rules to the latest completed candle and prevents
+   look-ahead from an unfinished higher-timeframe candle.
+3. Run `/api/backtest/run` with at least 220 candles and record the exact draft,
+   filters, confluence, TP/SL, fees, slippage, leverage, sizing, and volatility
+   regime. Treat same-candle stop/target collisions as `STOP_FIRST`.
+4. Resolve live risk with the scoped context `user + exchange + symbol + side +
+   timeframe + strategyId`. Do not replace a symbol/timeframe override with a
+   profile-wide TP, SL, or leverage value.
+5. Attach immutable attribution to every signal and order: `strategyId`,
+   `signalId`, `timeframe`, exchange, side, strategy family, source, risk
+   profile, leverage, TP, SL, and attribution version.
+6. Report performance only from realized closes. Segment by strategy, pair,
+   timeframe, exchange, and side; do not count open order records as wins or
+   losses.
+
 ---
 
 ## ✅ Pre-Deployment Checklist
@@ -154,3 +179,8 @@ export default StrategyModule;
 - [ ] `logic.handleUpdate` emits `SIGNAL_DETECTED`.
 - [ ] `StrategyComponent` uses `StrategyUI`.
 - [ ] `export default` is the `AuraModule` object.
+- [ ] A deterministic draft backtest has been run with the final parameters.
+- [ ] Every non-primary timeframe is declared and supplied as a confirmation series.
+- [ ] Scoped risk settings are resolved for the target exchange, symbol, side, timeframe, and strategy.
+- [ ] Signals and executions persist complete attribution fields.
+- [ ] Performance reports count realized closes only.
